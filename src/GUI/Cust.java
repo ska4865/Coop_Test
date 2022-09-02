@@ -23,7 +23,7 @@ public class Cust extends Frame {
     private Button screen3;
     private Button screen4;
     private Button screen5;
-    private Button done;
+    private Label label = new Label();
 
     public void init() {
         tix = new Tickets();
@@ -45,7 +45,6 @@ public class Cust extends Frame {
         screen3.addActionListener(new ButtonClickListener());
         screen4.addActionListener(new ButtonClickListener());
         screen5.addActionListener(new ButtonClickListener());
-        done.addActionListener(new ButtonClickListener());
 
         //Will close the program at the end of the day
         addWindowListener(new WindowAdapter() {
@@ -65,7 +64,6 @@ public class Cust extends Frame {
         screen3 = new Button(tix.getSCREEN_3());
         screen4 = new Button(tix.getSCREEN_4());
         screen5 = new Button(tix.getSCREEN_5());
-        done = new Button("Purchase");
 
         Label ticketLabel = new Label("# of Tickets you desire:");
         numTickets = new List(6);
@@ -84,7 +82,6 @@ public class Cust extends Frame {
         screen5.setBounds(460, 200, 80, 30);
         numTickets.setBounds(330, 300, 50, 50);
         ticketLabel.setBounds(300, 260, 150, 50);
-        done.setBounds(600, 440, 60, 50);
 
         // adding components to frame
         add(screen1);
@@ -95,7 +92,6 @@ public class Cust extends Frame {
         add(prompt);
         add(numTickets);
         add(ticketLabel);
-        add(done);
 
         //commands to keep track of what ticket is being used for what movie
         screen1.setActionCommand(tix.getSCREEN_1());
@@ -103,7 +99,6 @@ public class Cust extends Frame {
         screen3.setActionCommand(tix.getSCREEN_3());
         screen4.setActionCommand(tix.getSCREEN_4());
         screen5.setActionCommand(tix.getSCREEN_5());
-        done.setActionCommand("done");
 
         // frame size 300 width and 300 height
         setSize(700, 500);
@@ -126,19 +121,19 @@ public class Cust extends Frame {
         @Override
         public void actionPerformed(ActionEvent e) {
             String name = e.getActionCommand();
-            Label label = new Label();
 
-            if (!name.equals("done")){
-                label.setText("Amount of Tickets left: " +
-                        screenInfo.get(name).toString());
-                System.out.println(screenInfo.get(name));
+            label.setText("Amount of Tickets left: " +
+                    screenInfo.get(name).toString());
+            System.out.println(screenInfo.get(name));
+            if(numTickets.getSelectedItem() != null){
                 tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), name);
-                System.out.println(screenInfo.get(name));
-                label.setText("Amount of Tickets left: " +
-                        screenInfo.get(name).toString());
-
             }
-
+            System.out.println(screenInfo.get(name));
+            remove(label);
+            revalidate();
+            repaint();
+            label.setText("Amount of Tickets left: " +
+                    screenInfo.get(name).toString());
 
             /*if (name.equals(tix.getSCREEN_1())) {
                 label.setText("Amount of Tickets left: " +
