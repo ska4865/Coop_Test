@@ -7,6 +7,8 @@ package GUI;
 import Sales.Tickets;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Cust extends Frame{
     Tickets tix = new Tickets();
@@ -58,6 +60,14 @@ public class Cust extends Frame{
 
         // now frame will be visible, by default it is not visible
         setVisible(true);
+
+        //Will close the program at the end of the day
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
     }
 
     public void init(){
