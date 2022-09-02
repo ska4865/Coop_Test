@@ -1,5 +1,5 @@
 package GUI;
-/**
+/*
  * Author: Sakai Alexander
  * Date: 9/1/2022
  * File used to handle customer interactions
@@ -121,49 +121,33 @@ public class Cust extends Frame {
         @Override
         public void actionPerformed(ActionEvent e) {
             String name = e.getActionCommand();
+            Label visibleResponse = new Label ();
 
             label.setText("Amount of Tickets left: " +
                     screenInfo.get(name).toString());
-            System.out.println(screenInfo.get(name));
+
             if(numTickets.getSelectedItem() != null){
-                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), name);
+                remove(visibleResponse);
+                String response = tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), name);
+                System.out.println(response);
+                visibleResponse.setText(response);
+                add(visibleResponse);
+                visibleResponse.setVisible(true);
+                revalidate();
+                repaint();
             }
             System.out.println(screenInfo.get(name));
             remove(label);
             revalidate();
             repaint();
+            numTickets.deselect(numTickets.getSelectedIndex());
             label.setText("Amount of Tickets left: " +
                     screenInfo.get(name).toString());
 
-            /*if (name.equals(tix.getSCREEN_1())) {
-                label.setText("Amount of Tickets left: " +
-                        screenInfo.get(tix.getSCREEN_1()).toString());
-                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), tix.getSCREEN_1());
-
-            } else if (name.equals(tix.getSCREEN_2())) {
-                label.setText("Amount of Tickets left: " +
-                        screenInfo.get(tix.getSCREEN_2()).toString());
-                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), tix.getSCREEN_2());
-
-            } else if (name.equals(tix.getSCREEN_3())) {
-                label.setText("Amount of Tickets left: " +
-                        screenInfo.get(tix.getSCREEN_3()).toString());
-                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), tix.getSCREEN_3());
-
-            } else if (name.equals(tix.getSCREEN_4())) {
-                label.setText("Amount of Tickets left: " +
-                        screenInfo.get(tix.getSCREEN_4()).toString());
-                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), tix.getSCREEN_4());
-
-            } else {
-                label.setText("Amount of Tickets left: " +
-                        screenInfo.get(tix.getSCREEN_5()).toString());
-                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), tix.getSCREEN_5());
-
-            }*/
             label.setBounds(150, 300, 150, 50);
+            visibleResponse.setBounds(200, 150, 400, 50);
+            visibleResponse.setBackground(Color.RED);
 
-            remove(label);
             add(label);
 
         }
