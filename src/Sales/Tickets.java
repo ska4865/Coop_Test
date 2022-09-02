@@ -30,8 +30,10 @@ public class Tickets {
         SCREEN_5 = movieName[4];
     }
 
-    public void ticketSale(int amount){
+    public void ticketSale(int amount, String screen){
         totalSales += amount;
+        int remainder = screensInfo.get(screen) - amount;
+        screensInfo.put(screen, remainder);
     }
 
     public int getTotalSales(){

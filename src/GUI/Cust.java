@@ -18,25 +18,54 @@ public class Cust extends Frame {
     protected Tickets tix;
     private List numTickets;
     private Map<String, Integer> screenInfo;
+    private Button screen1;
+    private Button screen2;
+    private Button screen3;
+    private Button screen4;
+    private Button screen5;
+    private Button done;
 
-    public Tickets init() {
+    public void init() {
         tix = new Tickets();
         String[] movieNames = {"Ponyo", "Bleach", "Fast&Furious", "2012", "Scream 2"};
         tix.swapMovies(movieNames);
         screenInfo = tix.getInfo();
-        return tix;
     }
 
+    public static void main(String[] args) {
+        Cust start = new Cust();
+        start.init();
+        start.movieView();
+    }
+
+    public void events(){
+        //Adding listeners to track events
+        screen1.addActionListener(new ButtonClickListener());
+        screen2.addActionListener(new ButtonClickListener());
+        screen3.addActionListener(new ButtonClickListener());
+        screen4.addActionListener(new ButtonClickListener());
+        screen5.addActionListener(new ButtonClickListener());
+        done.addActionListener(new ButtonClickListener());
+
+        //Will close the program at the end of the day
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+    }
     public void movieView() {
 
         Label prompt = new Label("Please choose what movie you would like to see below: ");
 
         // creating a button
-        Button screen1 = new Button(tix.getSCREEN_1());
-        Button screen2 = new Button(tix.getSCREEN_2());
-        Button screen3 = new Button(tix.getSCREEN_3());
-        Button screen4 = new Button(tix.getSCREEN_4());
-        Button screen5 = new Button(tix.getSCREEN_5());
+        screen1 = new Button(tix.getSCREEN_1());
+        screen2 = new Button(tix.getSCREEN_2());
+        screen3 = new Button(tix.getSCREEN_3());
+        screen4 = new Button(tix.getSCREEN_4());
+        screen5 = new Button(tix.getSCREEN_5());
+        done = new Button("Purchase");
 
         Label ticketLabel = new Label("# of Tickets you desire:");
         numTickets = new List(6);
@@ -55,6 +84,7 @@ public class Cust extends Frame {
         screen5.setBounds(460, 200, 80, 30);
         numTickets.setBounds(330, 300, 50, 50);
         ticketLabel.setBounds(300, 260, 150, 50);
+        done.setBounds(600, 440, 60, 50);
 
         // adding components to frame
         add(screen1);
@@ -65,6 +95,7 @@ public class Cust extends Frame {
         add(prompt);
         add(numTickets);
         add(ticketLabel);
+        add(done);
 
         //commands to keep track of what ticket is being used for what movie
         screen1.setActionCommand(tix.getSCREEN_1());
@@ -72,16 +103,7 @@ public class Cust extends Frame {
         screen3.setActionCommand(tix.getSCREEN_3());
         screen4.setActionCommand(tix.getSCREEN_4());
         screen5.setActionCommand(tix.getSCREEN_5());
-
-        //Adding listeners to track events
-        screen1.addActionListener(new ButtonClickListener());
-        screen2.addActionListener(new ButtonClickListener());
-        screen3.addActionListener(new ButtonClickListener());
-        screen4.addActionListener(new ButtonClickListener());
-        screen5.addActionListener(new ButtonClickListener());
-        numTickets.addActionListener(new ButtonClickListener());
-
-
+        done.setActionCommand("done");
 
         // frame size 300 width and 300 height
         setSize(700, 500);
@@ -95,19 +117,8 @@ public class Cust extends Frame {
         // now frame will be visible, by default it is not visible
         setVisible(true);
 
-        //Will close the program at the end of the day
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-    }
+        events();
 
-    public static void main(String[] args) {
-        Cust start = new Cust();
-        start.init();
-        start.movieView();
     }
 
     public class ButtonClickListener implements ActionListener {
@@ -116,22 +127,45 @@ public class Cust extends Frame {
         public void actionPerformed(ActionEvent e) {
             String name = e.getActionCommand();
             Label label = new Label();
-            if (name.equals(tix.getSCREEN_1())) {
-                System.out.print(screenInfo);
+
+            if (!name.equals("done")){
+                label.setText("Amount of Tickets left: " +
+                        screenInfo.get(name).toString());
+                System.out.println(screenInfo.get(name));
+                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), name);
+                System.out.println(screenInfo.get(name));
+                label.setText("Amount of Tickets left: " +
+                        screenInfo.get(name).toString());
+
+            }
+
+
+            /*if (name.equals(tix.getSCREEN_1())) {
                 label.setText("Amount of Tickets left: " +
                         screenInfo.get(tix.getSCREEN_1()).toString());
-                numTickets.getSelectedItem();
-
+                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), tix.getSCREEN_1());
 
             } else if (name.equals(tix.getSCREEN_2())) {
-                label.setText("df");
+                label.setText("Amount of Tickets left: " +
+                        screenInfo.get(tix.getSCREEN_2()).toString());
+                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), tix.getSCREEN_2());
+
             } else if (name.equals(tix.getSCREEN_3())) {
-                label.setText("asd");
+                label.setText("Amount of Tickets left: " +
+                        screenInfo.get(tix.getSCREEN_3()).toString());
+                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), tix.getSCREEN_3());
+
             } else if (name.equals(tix.getSCREEN_4())) {
-                label.setText("omv");
+                label.setText("Amount of Tickets left: " +
+                        screenInfo.get(tix.getSCREEN_4()).toString());
+                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), tix.getSCREEN_4());
+
             } else {
-                label.setText("five");
-            }
+                label.setText("Amount of Tickets left: " +
+                        screenInfo.get(tix.getSCREEN_5()).toString());
+                tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), tix.getSCREEN_5());
+
+            }*/
             label.setBounds(150, 300, 150, 50);
 
             remove(label);
