@@ -24,7 +24,11 @@ public class Cust extends Frame {
     private Button screen4;
     private Button screen5;
     private Label label = new Label();
+    private Label visibleResponse = new Label ();
 
+    /**
+     * Initializes the tickets class so it can be used globally and updates the movie names of each screen
+     */
     public void init() {
         tix = new Tickets();
         String[] movieNames = {"Ponyo", "Bleach", "Fast&Furious", "2012", "Scream 2"};
@@ -38,6 +42,10 @@ public class Cust extends Frame {
         start.movieView();
     }
 
+    /**
+     * separated for an easier reading of movieView
+     * It adds listeners and handles closing the program at the end of the day
+     */
     public void events(){
         //Adding listeners to track events
         screen1.addActionListener(new ButtonClickListener());
@@ -54,6 +62,10 @@ public class Cust extends Frame {
             }
         });
     }
+
+    /**
+     * Creates the frames, buttons and windows that the customer will use and interact on a window
+     */
     public void movieView() {
 
         Label prompt = new Label("Please choose what movie you would like to see below: ");
@@ -74,14 +86,14 @@ public class Cust extends Frame {
         numTickets.add("5");
 
         // setting button position on screen
-        prompt.setBounds(100, 50, 500, 50);
-        screen1.setBounds(60, 200, 80, 30);
-        screen2.setBounds(160, 200, 80, 30);
-        screen3.setBounds(260, 200, 80, 30);
-        screen4.setBounds(360, 200, 80, 30);
-        screen5.setBounds(460, 200, 80, 30);
-        numTickets.setBounds(330, 300, 50, 50);
-        ticketLabel.setBounds(300, 260, 150, 50);
+        prompt.setBounds(150, 50, 500, 50);
+        screen1.setBounds(70, 200, 80, 30);
+        screen2.setBounds(170, 200, 80, 30);
+        screen3.setBounds(270, 200, 80, 30);
+        screen4.setBounds(370, 200, 80, 30);
+        screen5.setBounds(470, 200, 80, 30);
+        numTickets.setBounds(360, 300, 50, 50);
+        ticketLabel.setBounds(330, 260, 150, 50);
 
         // adding components to frame
         add(screen1);
@@ -100,7 +112,7 @@ public class Cust extends Frame {
         screen4.setActionCommand(tix.getSCREEN_4());
         screen5.setActionCommand(tix.getSCREEN_5());
 
-        // frame size 300 width and 300 height
+        // frame size 700 width and 500 height
         setSize(700, 500);
 
         // setting the title of Frame
@@ -112,41 +124,50 @@ public class Cust extends Frame {
         // now frame will be visible, by default it is not visible
         setVisible(true);
 
+        // adds the listeners to each button
         events();
 
     }
 
+    /**
+     * Button event handler class created here for easier development.
+     * Knowingly not the best practice, but was satisfactory for the scale
+     * of the problem
+     */
     public class ButtonClickListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String name = e.getActionCommand();
-            Label visibleResponse = new Label ();
+            String name = e.getActionCommand(); //name represents the name of the movie/what screen
 
             label.setText("Amount of Tickets left: " +
                     screenInfo.get(name).toString());
 
-            if(numTickets.getSelectedItem() != null){
-                remove(visibleResponse);
+            if(numTickets.getSelectedItem() != null){ //needed to prevent throwing an error when just
+                                                        //calling ticketsale
+
                 String response = tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), name);
-                System.out.println(response);
                 visibleResponse.setText(response);
-                add(visibleResponse);
-                visibleResponse.setVisible(true);
+                System.out.println(response);
+                remove(visibleResponse);  /* removes the component so the updated version can be added*/
                 revalidate();
-                repaint();
+                repaint(); /* refreshes the window */
+                visibleResponse.setText(response);
+                visibleResponse.setBounds(130, 150, 400, 50);
+                visibleResponse.setBackground(Color.RED);
+                add(visibleResponse);
+
             }
             System.out.println(screenInfo.get(name));
             remove(label);
             revalidate();
             repaint();
-            numTickets.deselect(numTickets.getSelectedIndex());
+            numTickets.deselect(numTickets.getSelectedIndex()); /*deselects from the list so unintentional tickets
+                                                                     aren't purchased*/
             label.setText("Amount of Tickets left: " +
-                    screenInfo.get(name).toString());
+                    screenInfo.get(name).toString());  //updates the amount of tickets left for a screening
 
             label.setBounds(150, 300, 150, 50);
-            visibleResponse.setBounds(200, 150, 400, 50);
-            visibleResponse.setBackground(Color.RED);
 
             add(label);
 
