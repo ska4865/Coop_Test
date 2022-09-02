@@ -4,7 +4,6 @@ package GUI;
  * Date: 9/1/2022
  * File used to handle customer interactions
  */
-import Sales.Tickets;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -15,10 +14,6 @@ import java.awt.*;
 
 public class Customer extends Application{
     private String customer_input;
-
-    public void init(){
-        String stu = Tickets.getSCREEN_1();
-    }
 
     @Override
     public void start(Stage stage) throws Exception {
