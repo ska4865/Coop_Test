@@ -3,6 +3,20 @@ package Sales;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Liberties, Assumptions and Flaws: This code is built assuming the customer will not make
+ * wrong choices with the exception of buying non existent tickets. In order to "lock in"
+ * the customers choice for both movie and tickets they must also click on the movie after
+ * choosing the amount of tickets. Meaning first click on movie -> amount of tix available,
+ * clicks on number of tickets -> no change, click on movie -> data is updated.
+ *
+ * The day is considered complete when the window is closed and the report is printed via
+ * terminal.
+ *
+ * On a side note I did have to change from javafx to awt because of pathing issues so
+ * if there are remnants of javafx I didn't catch, that's why they're there in the first place
+ */
+
 public class Tickets {
 
     private static Integer MAX_TICKETS = 5; /*It wasn't specified how many tickets so I
@@ -57,8 +71,8 @@ public class Tickets {
         }
         else{
             totalSales += amount;
-            salesInfo.put(screen, salesInfo.get(screen) + amount); /*adds or updates the map of the sales information
-                                                                    for the day*/
+            salesInfo.merge(screen, amount, Integer::sum);/*adds or updates the map of the sales
+                                                                information for the day*/
             screensInfo.put(screen, remainder); //updates the remaining amount of tickets a customer can buy
             return "Success! Enjoy the movie!";
         }
@@ -68,11 +82,12 @@ public class Tickets {
      * gets, calculates and returns the report on sales for the day
      * the information is sent to the command line because the
      * GUI is technically a customer interface and not meant to the "team"
-     * @return and int of the sales
      */
-    public int getTotalSales(){
+    public void getTotalSales(){
+        System.out.println("Detailed report: ");
         System.out.println(salesInfo);
-        return totalSales;
+        System.out.print("Total ticket sales today: ");
+        System.out.println(totalSales);
     }
 
     public String getSCREEN_1() {

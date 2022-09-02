@@ -40,6 +40,7 @@ public class Cust extends Frame {
         Cust start = new Cust();
         start.init();
         start.movieView();
+
     }
 
     /**
@@ -55,9 +56,11 @@ public class Cust extends Frame {
         screen5.addActionListener(new ButtonClickListener());
 
         //Will close the program at the end of the day
+        //And print the report on tickets and screenings
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                tix.getTotalSales();
                 System.exit(0);
             }
         });
@@ -148,7 +151,6 @@ public class Cust extends Frame {
 
                 String response = tix.ticketSale(Integer.parseInt(numTickets.getSelectedItem()), name);
                 visibleResponse.setText(response);
-                System.out.println(response);
                 remove(visibleResponse);  /* removes the component so the updated version can be added*/
                 revalidate();
                 repaint(); /* refreshes the window */
@@ -158,7 +160,6 @@ public class Cust extends Frame {
                 add(visibleResponse);
 
             }
-            System.out.println(screenInfo.get(name));
             remove(label);
             revalidate();
             repaint();
