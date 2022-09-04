@@ -85,7 +85,9 @@ public class Tickets {
      */
     public void getTotalSales(){
         System.out.println("Detailed report: ");
-        System.out.println(salesInfo);
+        for(String movie: salesInfo.keySet()){
+            System.out.println(movie + " sold " + salesInfo.get(movie) + " tickets ");
+        }
         System.out.print("Total ticket sales today: ");
         System.out.println(totalSales);
     }
